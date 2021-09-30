@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MyForm from "./compoments/Form/Form";
-
+import App from "./compoments/App/App";
 
 ReactDOM.render(
   <React.StrictMode>
-    <MyForm formHeader={"new Form"}/>
+      <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );

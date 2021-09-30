@@ -1,15 +1,14 @@
 import React, {useState} from "react";
-import Button from "../Button/Button";
+import ButtonUser from "../ButtonUser/ButtonUser";
 import {IPost} from "../../interfaces/interfaces";
 import DataWrapper from "../DataWrapper/DataWrapper";
+import {withStyles} from "@material-ui/styles";
+import {style} from "../Arcticle/article-style";
+import {Grid} from "@material-ui/core";
 
-interface IForm{
-    formHeader: string,
-}
+const MyForm = withStyles(style)(  ({ }) => {
 
-const MyForm : React.FC<IForm>  = ({ formHeader})=>{
-        const [posts, setPosts]=useState<IPost[]>([]);
-
+        const [posts, setPosts] = useState<IPost[]> ([]);
         const  GetAllUsers = async  ():Promise<void> => {
         const response = await fetch('https://jsonplaceholder.typicode.com/posts')
             if (response.ok) {
@@ -17,14 +16,17 @@ const MyForm : React.FC<IForm>  = ({ formHeader})=>{
                 setPosts(data)
             }
         }
+
     return(
-        <>
-            <div>{formHeader}</div>
-            <Button onClick={GetAllUsers}/>
-            {
-                posts.length > 0 && <DataWrapper data={posts}/>
-            }
-        </>
+       <>
+            <Grid container justifyContent = {"center"} >
+                <ButtonUser onClick = {GetAllUsers} subscription = {"Get Data"} />
+            </Grid>
+               {
+                    posts.length > 0 && <DataWrapper data = {posts}/>
+                }
+       </>
     )
-}
+})
+
 export  default MyForm
