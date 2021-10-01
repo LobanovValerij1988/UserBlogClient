@@ -9,15 +9,28 @@ ErrorMessage: string,
 label: string,
 placeholder: string,
 value: string,
-setValue: (value: string) => void
-type:string
+setValue: (value: string) => void,
+type:string,
+multiline?: boolean
+rows?: number
 }
 
-const TextBox = withStyles(style)(  ({classes, HasError, ErrorMessage, label, placeholder, value, setValue, type}: ITextBox) => {
-
-
+const TextBox = withStyles(style)(
+    ({classes,
+                HasError,
+                ErrorMessage,
+                label,
+                placeholder,
+                value,
+                setValue,
+                type,
+                multiline = false,
+                rows = 1,
+                }: ITextBox) => {
   return(
         <TextField error = {HasError}
+                   multiline={multiline}
+                   rows={rows}
                    type = {type}
                    helperText = {HasError ? ErrorMessage : ""}
                    label = { label}

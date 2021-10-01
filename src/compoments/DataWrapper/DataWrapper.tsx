@@ -18,7 +18,7 @@ const showData = (currentPage : number, data : IPost[]) : ReactElement[] => {
     const dataShower : ReactElement[] = [];
 
     for (let i = startData; i < endData && i < data.length; i++){
-        dataShower.push(<Article title = {data[i].title}  body = {data[i].body}  key = {data[i].id}/>)
+         dataShower.push(<Article title = {data[i].title}  body = {data[i].articleContent}  key = {data[i].id}/>)
     }
     return dataShower;
 }

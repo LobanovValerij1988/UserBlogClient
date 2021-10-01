@@ -49,6 +49,7 @@ const MyForm = withStyles(style)(  ({classes ,setUser}: IMyForm) => {
                   if (response.ok) {
                       const user : IUser = await response.json()
                       setUser(user)
+                      localStorage.setItem("user",JSON.stringify(user))
                    }
               }
               catch (e){

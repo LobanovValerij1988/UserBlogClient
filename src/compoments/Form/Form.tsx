@@ -7,20 +7,32 @@ import {style} from "../Arcticle/article-style";
 import {Grid} from "@material-ui/core";
 
 const MyForm = withStyles(style)(  ({ }) => {
-
         const [posts, setPosts] = useState<IPost[]> ([]);
-        const  GetAllUsers = async  ():Promise<void> => {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts')
-            if (response.ok) {
-                const data : IPost[] = await response.json()
-                setPosts(data)
+        const  GetAllPosts = async  ():Promise<void> => {
+            let user = localStorage.getItem("user");
+            try {
+                if(user) {
+               const response = await fetch(`http://localhost:3001/GetPosts?id=${JSON.parse(user).id}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+
+                    })
+                    if (response.ok) {
+                        const data : IPost[] = await response.json()
+                        setPosts(data)
+                    }
+                }
+            }
+            catch (e){
+                console.log(e)
             }
         }
-
     return(
        <>
             <Grid container justifyContent = {"center"} >
-                <ButtonUser onClick = {GetAllUsers} subscription = {"Get Data"} />
+                <ButtonUser onClick = {GetAllPosts} subscription = {"Get Data"} />
             </Grid>
                {
                     posts.length > 0 && <DataWrapper data = {posts}/>
