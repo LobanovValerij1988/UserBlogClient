@@ -8,23 +8,29 @@ import {Grid ,Typography} from "@material-ui/core";
 
 interface IDataWraper extends WithStyles<typeof style> {
     data : IPost[],
+    deleteData: (id:number) => void
 }
 
 const dataOnPage : number = 4
 
-const showData = (currentPage : number, data : IPost[]) : ReactElement[] => {
-    const startData : number = currentPage  * dataOnPage
-    const endData : number = startData + dataOnPage
-    const dataShower : ReactElement[] = [];
+const DataWrapper   = withStyles(style)( ({ classes, data, deleteData}: IDataWraper)=>{
 
-    for (let i = startData; i < endData && i < data.length; i++){
-         dataShower.push(<Article title = {data[i].title}  body = {data[i].articleContent}  key = {data[i].id}/>)
+    const showData = (currentPage : number, data : IPost[]) : ReactElement[] => {
+        const startData : number = currentPage  * dataOnPage
+        const endData : number = startData + dataOnPage
+        const dataShower : ReactElement[] = [];
+
+        for (let i = startData; i < endData && i < data.length; i++){
+            dataShower.push(<Article id           =    {data[i].id}
+                                     title        = {data[i].title}
+                                     body         = {data[i].articleContent}
+                                     key          = {data[i].id}
+                                    deleteArticle = {deleteData}
+            />)
+        }
+        return dataShower;
     }
-    return dataShower;
-}
 
-
-const DataWrapper   = withStyles(style)( ({ classes, data}: IDataWraper)=>{
     const [currentPage, setCurrentPage] = useState<number> (0)
     const [allPages,setAllPages] = useState<number>(0)
     const [currentArticle, setCurrentArticle] = useState<ReactElement[]>(showData(currentPage, data))

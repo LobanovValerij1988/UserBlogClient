@@ -11,19 +11,20 @@ export const UserRegistered = React.createContext<(user:IUser | null)=>void>((us
 
 const App = ({}) =>{
     const [user, setUser] = useState <IUser | null> (null);
+
     useEffect(() => {
-    let registeredUser =    localStorage.getItem("user")
+    let registeredUser = localStorage.getItem("user")
         if(registeredUser){
             setUser(JSON.parse(registeredUser))
         }
     },[])
+
     if(!user){
         return  <SignInPage setUser = {setUser} />
     }
 
     return(
         <>
-
             <Router >
                <UserRegistered.Provider value = {setUser}>
                    <NavigationMenu/>

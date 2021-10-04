@@ -1,15 +1,15 @@
 import React, {useState} from "react";
 import ButtonUser from "../../compoments/ButtonUser/ButtonUser";
 import {withStyles, WithStyles} from "@material-ui/styles";
-import {Box} from "@material-ui/core";
+import {Box, Card} from "@material-ui/core";
 import TextBox from "../../compoments/Inputs/TextBox/TextBox";
 import {style} from "./CreateNewPost-style";
 
 interface ICreateNewPost extends WithStyles<typeof style> {
 }
 
-const ICreateNewPost = withStyles(style)(  ({classes}: ICreateNewPost) => {
-    const [title, setTitle] =                useState<string>("");
+const CreateNewPost = withStyles(style)(  ({classes}: ICreateNewPost) => {
+    const [title, setTitle]                = useState<string>("");
     const [isErrorTitle, setIsErrorTitle ] = useState<boolean>(false)
 
     const [articleContent, setArticleContent] = useState<string>("")
@@ -70,29 +70,33 @@ const ICreateNewPost = withStyles(style)(  ({classes}: ICreateNewPost) => {
                  '& .MuiTextField-root': { m: 1, width: '50ch', display : "block"},
              }}
         >
-            <TextBox label = "Title"
-                     type = "text"
-                     placeholder = "Post Title"
-                     value = {title}
-                     setValue = {setTitle}
-                     HasError = {isErrorTitle}
-                     ErrorMessage = "Title couldn't be Empty"  />
+          <Card>
+               <form>
+                  <TextBox label = "Title"
+                             type = "text"
+                             placeholder = "Post Title"
+                             value = {title}
+                             setValue = {setTitle}
+                             HasError = {isErrorTitle}
+                             ErrorMessage = "Title couldn't be Empty"  />
 
-            <TextBox
-                HasError = {isErrorArticleContent}
-                ErrorMessage = "Article content can not be less than 50 symballs"
-                multiline={true}
-                rows = {10}
-                value = {articleContent}
-                setValue = {setArticleContent}
-                label = "Article content"
-                placeholder = {""}
-                type = {"text"}
+                    <TextBox
+                        HasError = {isErrorArticleContent}
+                        ErrorMessage = "Article content can not be less than 50 symballs"
+                        multiline={true}
+                        rows = {10}
+                        value = {articleContent}
+                        setValue = {setArticleContent}
+                        label = "Article content"
+                        placeholder = {""}
+                        type = {"text"}
 
-            />
-            <ButtonUser onClick = {Register} subscription = {"Sign In"} />
+                    />
+                    <ButtonUser onClick = {Register} subscription = {"Sign In"} />
+               </form>
+           </Card>
         </Box>
     )
 })
 
-export  default ICreateNewPost
+export  default CreateNewPost
