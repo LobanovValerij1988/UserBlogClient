@@ -1,6 +1,6 @@
 import React  from "react";
 import {withStyles, WithStyles} from "@material-ui/styles";
-import {style} from "../../../pages/SignInPage/SignIn-style";
+import {style} from "./TextBox-style";
 import {TextField} from "@material-ui/core";
 
 interface ITextBox extends WithStyles<typeof style> {
@@ -26,7 +26,7 @@ const TextBox = withStyles(style)(
                 type,
                 multiline = false,
                 rows = 1,
-                }: ITextBox) => {
+              }: ITextBox) => {
   return(
         <TextField error = {HasError}
                    multiline={multiline}

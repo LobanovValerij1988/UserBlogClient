@@ -1,9 +1,5 @@
 
-export interface  IPost {
-    userId: number,
-    id:     number,
-    title:  string,
-    articleContent:   string,
+export interface  IPost extends IArticle{
     createdAt: string,
     updatedAt: string
 }
@@ -14,4 +10,11 @@ export interface  IPost {
     id: number,
     createdAt: string,
     updatedAt: string,
+}
+
+export  interface IArticle{
+    userId: number,
+    id:     number ,
+    title:  string,
+    articleContent:   string,
 }

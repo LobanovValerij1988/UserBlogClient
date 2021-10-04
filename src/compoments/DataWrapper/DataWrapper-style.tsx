@@ -5,6 +5,7 @@ export const style = (theme:Theme) => createStyles({
           flex: "1 1 0",
     },
     pageCounter: {
+      margin:"0 20px !important",
       display: "flex",
       justifyContent: "center",
       alignItems:"center"

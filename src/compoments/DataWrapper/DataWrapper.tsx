@@ -21,11 +21,11 @@ const DataWrapper   = withStyles(style)( ({ classes, data, deleteData}: IDataWra
         const dataShower : ReactElement[] = [];
 
         for (let i = startData; i < endData && i < data.length; i++){
-            dataShower.push(<Article id           =    {data[i].id}
-                                     title        = {data[i].title}
-                                     body         = {data[i].articleContent}
-                                     key          = {data[i].id}
-                                    deleteArticle = {deleteData}
+            dataShower.push(<Article id            =    {data[i].id}
+                                     title         = {data[i].title}
+                                     body          = {data[i].articleContent}
+                                     key           = {data[i].id}
+                                     deleteArticle = {deleteData}
             />)
         }
         return dataShower;

@@ -1,9 +1,8 @@
 import React, {useState} from "react";
-import {Card, Typography, Grid, CardHeader, IconButton, Collapse, CardActions} from "@material-ui/core";
 import {WithStyles, withStyles} from "@material-ui/styles";
 import {style} from "./article-style"
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import DeleteIcon from '@mui/icons-material/Delete';
+import CreateOrUpdateArticle from "./CreateOrUpdateArticle";
+import ShowArticle from "./ShowArticle";
 
 export  interface  IArticle extends WithStyles<typeof style>{
     title: string;
@@ -13,38 +12,46 @@ export  interface  IArticle extends WithStyles<typeof style>{
 }
 
 const Article = withStyles(style)( ({classes, title, body, id, deleteArticle}: IArticle) => {
-    const [expanded, setExpanded] = useState<boolean>(false);
+     const [isUpdateArticle, setIsUpdateArticle] = useState<boolean>(false)
+     const [currentTitle, setCurrentTitle] = useState<string>(title)
+     const [currentBody, setCurrentBody] = useState<string>(body)
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
+    const updatePost = async (articleId: number | null ,userId:number, article:string,  body:string ) => {
+        const updatedArticle = {
+            articleId: articleId,
+            title: article,
+            articleContent: body,
+            userId: userId
+        }
+        const response = await fetch('http://localhost:3001/PostUpdate', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify(updatedArticle)
+        })
+        if (response.ok) {
+            setCurrentTitle(article)
+            setCurrentBody(body)
+        }
+    }
 
-    return(
-        <Grid item sm = {12} md = {6} lg = {3} >
-            <Card className = {classes.card} >
-                <CardHeader
-                  action = {
-                        <IconButton aria-label="settings"
-                                    onClick={()=>deleteArticle(id)}
-                        >
-                            <DeleteIcon  color={"error"}/>
-                        </IconButton>
-                    }
-                    title = {title}
-                />
-                <CardActions disableSpacing>
-                    <IconButton
-                        onClick={handleExpandClick}
-                          aria-label="show more"
-                    >
-                        <ExpandMoreIcon />
-                    </IconButton>
-                </CardActions>
-                <Collapse in={expanded}  >
-                    <Typography className={classes.cardContent}> {body} </Typography>
-                </Collapse>
-            </Card>
-        </Grid>
+     return(
+        <>
+             { isUpdateArticle ?
+                 <CreateOrUpdateArticle isUpdate = {true}
+                                        currentTitle = {currentTitle}
+                                        currentBody = {currentBody}
+                                        buttonBackHandler = {setIsUpdateArticle}
+                                        submitHandler = {updatePost}
+                                        articleId = {id}
+                 />  :
+                 <ShowArticle body = {currentBody}
+                              title = {currentTitle}
+                              id ={id} deleteArticle = {deleteArticle}
+                              updateArticleHandle = {setIsUpdateArticle}    />
+             }
+        </>
     )
 })
 
