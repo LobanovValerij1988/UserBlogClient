@@ -1,13 +1,17 @@
-import React, {useState} from "react";
+import React from "react";
 import ButtonUser from "../ButtonUser/ButtonUser";
 import {IPost} from "../../interfaces/interfaces";
 import DataWrapper from "../DataWrapper/DataWrapper";
-import {withStyles} from "@material-ui/styles";
+import {WithStyles, withStyles} from "@material-ui/styles";
 import {style} from "../Arcticle/article-style";
 import {Grid} from "@material-ui/core";
 
-const MyForm = withStyles(style)(  ({ }) => {
-    const [posts, setPosts] = useState<IPost[]> ([]);
+export interface IMyForm extends WithStyles<typeof style> {
+    posts : IPost[],
+    setPosts: (data:IPost[]) => void
+}
+
+const MyForm = withStyles(style)(  ({posts,setPosts}:IMyForm) => {
 
     const deletePost = async (id: number) =>{
         try {
@@ -58,7 +62,7 @@ const MyForm = withStyles(style)(  ({ }) => {
             </Grid>
                {
                     posts.length > 0 && <DataWrapper data = {posts} deleteData = {deletePost}/>
-                }
+               }
        </>
     )
 })

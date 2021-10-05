@@ -1,8 +1,8 @@
 import React from "react";
 import CreateOrUpdateArticle from "../../compoments/Arcticle/CreateOrUpdateArticle";
 
- const CreateNewPost = ({})   => {
-     const createPost = async (articleId: number | null ,userId:number, article:string,  body:string )=>{
+ const CreateNewPost = ({ })   => {
+    const createPost = async (articleId: number | null ,userId:number, article:string,  body:string )=>{
              const savedArticle = {
                  articleId: articleId,
                  title: article,

@@ -40,8 +40,8 @@ const Article = withStyles(style)( ({classes, title, body, id, deleteArticle}: I
         <>
              { isUpdateArticle ?
                  <CreateOrUpdateArticle isUpdate = {true}
-                                        currentTitle = {currentTitle}
-                                        currentBody = {currentBody}
+                                        initiallyTitle = {currentTitle}
+                                        initiallyBody = {currentBody}
                                         buttonBackHandler = {setIsUpdateArticle}
                                         submitHandler = {updatePost}
                                         articleId = {id}

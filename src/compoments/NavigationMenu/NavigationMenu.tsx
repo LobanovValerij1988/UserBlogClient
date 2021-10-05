@@ -1,7 +1,7 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import {Box, Tabs, Tab, Button} from "@material-ui/core";
 import TabPanel from "./TabPanel/TabPanel";
-import { useHistory  } from "react-router";
+import {useHistory, useLocation} from "react-router";
 import {style} from "./NavigationMenu-style";
 import {WithStyles, withStyles} from "@material-ui/styles";
 import {UserRegistered} from "../App/App";
@@ -16,10 +16,27 @@ function a11yProps(index: number) {
     };
 }
 
-const NavigationMenu = withStyles(style)(  ({classes }:INavigationMenu) => {
+const NavigationMenu = withStyles(style)( ({classes }:  INavigationMenu) => {
     const [value, setValue] = React.useState(0);
-    const history = useHistory();
+    const history  = useHistory();
+    const location = useLocation();
     const setUser = useContext(UserRegistered)
+
+    useEffect(()=>{
+        switch (location.pathname){
+            case "/":
+                setValue(0)
+                break;
+            case "/createNewPost":
+                setValue(1)
+                break;
+            case "/somethingelse":
+                setValue(2)
+                break;
+            default:
+                history.push("/404")
+        }
+    },[])
 
     const logout = () => {
         setUser(null);

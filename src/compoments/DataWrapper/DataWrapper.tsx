@@ -13,8 +13,7 @@ interface IDataWraper extends WithStyles<typeof style> {
 
 const dataOnPage : number = 4
 
-const DataWrapper   = withStyles(style)( ({ classes, data, deleteData}: IDataWraper)=>{
-
+const DataWrapper  = withStyles(style)( ({ classes, data, deleteData}: IDataWraper)=>{
     const showData = (currentPage : number, data : IPost[]) : ReactElement[] => {
         const startData : number = currentPage  * dataOnPage
         const endData : number = startData + dataOnPage
@@ -38,7 +37,7 @@ const DataWrapper   = withStyles(style)( ({ classes, data, deleteData}: IDataWra
     useEffect(()=>{
         setAllPages(Math.ceil(data.length / dataOnPage))
         setCurrentArticle(showData(currentPage, data))
-    },[currentPage, data])
+    },[currentPage, data ])
 
     const increasePage = (): void => {
        if(currentPage < allPages - 1) {

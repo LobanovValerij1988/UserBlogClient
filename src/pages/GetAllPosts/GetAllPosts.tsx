@@ -1,10 +1,12 @@
 import React from "react";
-import MyForm from "../../compoments/Form/Form";
+import MyForm, {IMyForm} from "../../compoments/Form/Form";
+import {withStyles} from "@material-ui/styles";
+import {style} from "../../compoments/Arcticle/article-style";
 
-const GetAllPosts = ()   => {
+const GetAllPosts = withStyles(style)(  ({posts,setPosts}:IMyForm) => {
     return(
-        <MyForm />
+        <MyForm  posts = {posts} setPosts={setPosts}/>
     )
-}
+})
 
 export default GetAllPosts;
