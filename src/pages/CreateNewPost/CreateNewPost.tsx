@@ -9,7 +9,7 @@ import CreateOrUpdateArticle from "../../compoments/Arcticle/CreateOrUpdateArtic
                  articleContent: body,
                  userId: userId
              }
-             const response = await fetch('http://localhost:3001/SavePost', {
+             const response = await fetch(`${process.env.REACT_APP_HOST_NAME}/SavePost`, {
                  method: 'POST',
                  headers: {
                      'Content-Type': 'application/json;charset=utf-8'

@@ -23,7 +23,7 @@ const Article = withStyles(style)( ({classes, title, body, id, deleteArticle}: I
             articleContent: body,
             userId: userId
         }
-        const response = await fetch('http://localhost:3001/PostUpdate', {
+        const response = await fetch(`${process.env.REACT_APP_HOST_NAME}/PostUpdate`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'

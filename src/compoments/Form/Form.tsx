@@ -18,7 +18,7 @@ const MyForm = withStyles(style)(  ({posts,setPosts}:IMyForm) => {
             const articleId = {
                 articleId: id
             }
-            const response = await fetch(`http://localhost:3001/DeletePost`, {
+            const response = await fetch(`${process.env.REACT_APP_HOST_NAME}/DeletePost`, {
                 method: 'Delete',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
@@ -39,7 +39,7 @@ const MyForm = withStyles(style)(  ({posts,setPosts}:IMyForm) => {
             let user = localStorage.getItem("user");
             try {
                if(user) {
-                   const response = await fetch(`http://localhost:3001/GetPosts?id=${JSON.parse(user).id}`, {
+                   const response = await fetch(`${process.env.REACT_APP_HOST_NAME}/GetPosts?id=${JSON.parse(user).id}`, {
                             method: 'GET',
                             headers: {
                                 'Content-Type': 'application/json;charset=utf-8'
