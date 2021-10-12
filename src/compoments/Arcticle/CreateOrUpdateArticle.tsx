@@ -1,26 +1,23 @@
 import React, {useState} from "react";
 import ButtonUser from "../../compoments/ButtonUser/ButtonUser";
-import {withStyles, WithStyles} from "@material-ui/styles";
+import {withStyles} from "@material-ui/styles";
 import {Card, Grid, IconButton} from "@material-ui/core";
 import TextBox from "../../compoments/Inputs/TextBox/TextBox";
 import {style} from "./article-style";
 import ExitToAppSharpIcon from '@mui/icons-material/ExitToAppSharp';
+import InputFile from "../Inputs/InputFile/InputFile";
+import notFound from "../../images/not-found-image.jpg";
+import {ICreateOrUpdateArticle} from "../../interfaces/interfaces";
 
-interface ICreateOrUpdateArticle extends WithStyles<typeof style> {
-  isUpdate?: boolean,
-  initiallyTitle?: string,
-  initiallyBody?: string,
-  buttonBackHandler ?: (isBack:boolean) => void
-  submitHandler : (articleId:number | null, userId: number, article:string,  body:string) => Promise<void>
-  articleId?: number | null
-}
-
-const CreateOrUpdateArticle = withStyles(style)(  ({classes,isUpdate = false, initiallyTitle = "" , initiallyBody = "" , buttonBackHandler, submitHandler, articleId = null } : ICreateOrUpdateArticle) => {
+const CreateOrUpdateArticle = withStyles(style)(  ({classes, isUpdate = false, initiallyTitle = "" , initiallyBody = "" , buttonBackHandler, submitHandler, articleId = "",  picture = null} : ICreateOrUpdateArticle) => {
     const [title, setTitle]                = useState<string>(initiallyTitle);
+    console.log(picture , "picture");
     const [isErrorTitle, setIsErrorTitle ] = useState<boolean>(false)
 
     const [articleContent, setArticleContent] = useState<string>(initiallyBody)
     const [isErrorArticleContent, setIsErrorArticleContent ] = useState<boolean>(false)
+
+    const [file, setFile] = useState<File | undefined>( undefined)
 
     const backHandler = (e:any) => {
           if (title !== initiallyTitle || articleContent !== initiallyBody){
@@ -31,8 +28,6 @@ const CreateOrUpdateArticle = withStyles(style)(  ({classes,isUpdate = false, in
         }
         buttonBackHandler?.(false)
     }
-
-
 
     const  Register = async  ():Promise<void> => {
         setIsErrorTitle(false)
@@ -54,7 +49,18 @@ const CreateOrUpdateArticle = withStyles(style)(  ({classes,isUpdate = false, in
             let user = localStorage.getItem("user");
             try {
                 if(user) {
-                    submitHandler(articleId, JSON.parse(user).id, title, articleContent)
+                    let formData = new FormData();
+                    formData.append("articleId" , articleId);
+                    formData.append("userId" , JSON.parse(user).id);
+                    formData.append("title", title);
+                    formData.append("articleContent",  articleContent);
+                    if(file) {
+                          formData.append("picture", file)
+                    }
+                    if(picture){
+                        formData.append("picturePath", picture )
+                    }
+                    submitHandler(formData)
                 }
             }
             catch (e){
@@ -71,7 +77,7 @@ const CreateOrUpdateArticle = withStyles(style)(  ({classes,isUpdate = false, in
     return(
         <Grid item sm = {12} md = {6} lg = {3} >
            <Card className = {classes.card} >
-                <form >
+                <form  >
                     <TextBox label = "Title"
                              type  = "text"
                              placeholder = "Post Title"
@@ -92,6 +98,9 @@ const CreateOrUpdateArticle = withStyles(style)(  ({classes,isUpdate = false, in
                         placeholder = {""}
                         type = {"text"}
                     />
+                    <img src={file ? (window.URL ? URL : webkitURL).createObjectURL(file) : picture ? `${process.env.REACT_APP_HOST_NAME}${picture}` : notFound }
+                         className={classes.image}/>
+                    <InputFile setFile = {setFile} />
                     <ButtonUser onClick = {Register} subscription = {isUpdate ? "Update article" : "Create Article"} />
                     { isUpdate && (
                         <IconButton

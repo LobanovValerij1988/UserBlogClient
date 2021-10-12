@@ -1,16 +1,12 @@
 import React, {useState} from "react";
 import ButtonUser from "../../compoments/ButtonUser/ButtonUser";
-import {withStyles, WithStyles} from "@material-ui/styles";
+import {withStyles} from "@material-ui/styles";
 import {style} from "./SignIn-style";
 import {Box} from "@material-ui/core";
 import TextBox from "../../compoments/Inputs/TextBox/TextBox";
-import { IUser} from "../../interfaces/interfaces";
+import {ISignInPage, IUser} from "../../interfaces/interfaces";
 
-interface IMyForm extends WithStyles<typeof style> {
-setUser: (user :IUser) => void
-}
-
-const MyForm = withStyles(style)(  ({classes ,setUser}: IMyForm) => {
+const MyForm = withStyles(style)(  ({classes ,setUser}: ISignInPage) => {
     const [name, setName] =                useState<string>("");
     const [isErrorName, setIsErrorName ] = useState<boolean>(false)
 

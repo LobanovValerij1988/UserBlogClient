@@ -1,38 +1,25 @@
 import React, {useState} from "react";
-import {WithStyles, withStyles} from "@material-ui/styles";
+import {withStyles} from "@material-ui/styles";
 import {style} from "./article-style"
 import CreateOrUpdateArticle from "./CreateOrUpdateArticle";
 import ShowArticle from "./ShowArticle";
+import {IArticle} from "../../interfaces/interfaces";
 
-export  interface  IArticle extends WithStyles<typeof style>{
-    title: string;
-    body:  string;
-    id:    number
-    deleteArticle: (id : number) => void
-}
-
-const Article = withStyles(style)( ({classes, title, body, id, deleteArticle}: IArticle) => {
+const Article = withStyles(style)( ({classes, title, body, id, deleteArticle,picture}: IArticle) => {
      const [isUpdateArticle, setIsUpdateArticle] = useState<boolean>(false)
      const [currentTitle, setCurrentTitle] = useState<string>(title)
      const [currentBody, setCurrentBody] = useState<string>(body)
 
-    const updatePost = async (articleId: number | null ,userId:number, article:string,  body:string ) => {
-        const updatedArticle = {
-            articleId: articleId,
-            title: article,
-            articleContent: body,
-            userId: userId
-        }
-        const response = await fetch(`${process.env.REACT_APP_HOST_NAME}/PostUpdate`, {
+    const updatePost = async (formData: FormData) => {
+       const response = await fetch(`${process.env.REACT_APP_HOST_NAME}/PostUpdate`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8'
-            },
-            body: JSON.stringify(updatedArticle)
+            body: formData
         })
         if (response.ok) {
-            setCurrentTitle(article)
-            setCurrentBody(body)
+            const newTitle= formData.get("title") || "";
+            setCurrentTitle(newTitle.toString())
+            const newBody = formData.get("articleContent")  || ""
+            setCurrentBody(newBody.toString())
         }
     }
 
@@ -44,12 +31,15 @@ const Article = withStyles(style)( ({classes, title, body, id, deleteArticle}: I
                                         initiallyBody = {currentBody}
                                         buttonBackHandler = {setIsUpdateArticle}
                                         submitHandler = {updatePost}
-                                        articleId = {id}
+                                        articleId = {id.toString()}
+                                        picture = {picture}
                  />  :
                  <ShowArticle body = {currentBody}
                               title = {currentTitle}
                               id ={id} deleteArticle = {deleteArticle}
-                              updateArticleHandle = {setIsUpdateArticle}    />
+                              updateArticleHandle = {setIsUpdateArticle}
+                              picture = {picture}
+                 />
              }
         </>
     )

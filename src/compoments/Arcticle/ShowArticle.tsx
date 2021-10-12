@@ -1,22 +1,17 @@
 import React, {useState} from "react";
-import {Card, Typography, Grid, CardHeader, IconButton, Collapse, CardActions} from "@material-ui/core";
-import {WithStyles, withStyles} from "@material-ui/styles";
+import {Card, Typography, Grid, CardHeader, IconButton, Collapse, CardActions, CardMedia} from "@material-ui/core";
+import {withStyles} from "@material-ui/styles";
 import {style} from "./article-style"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateSharpIcon from '@mui/icons-material/UpdateSharp';
+import {IShowArticle} from "../../interfaces/interfaces";
+import notFound from "../../images/not-found-image.jpg";
 
-export  interface  IShowArticle extends WithStyles<typeof style>{
-    title: string;
-    body:  string;
-    id:    number
-    deleteArticle: (id : number) => void
-    updateArticleHandle: (isUpdate:boolean ) => void
-}
-
-const ShowArticle = withStyles(style)( ({classes, title, body, id, deleteArticle, updateArticleHandle}: IShowArticle) => {
+const ShowArticle = withStyles(style)( ({classes, title, body, id, deleteArticle, updateArticleHandle, picture}: IShowArticle) => {
     const [expanded, setExpanded] = useState<boolean>(false);
 
+    console.log(`${process.env.REACT_APP_HOST_NAME}${picture}`);
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -33,6 +28,12 @@ const ShowArticle = withStyles(style)( ({classes, title, body, id, deleteArticle
                         </IconButton>
                     }
                     title = {title}
+                />
+                <CardMedia
+                    component = "img"
+                    width = "100%"
+                    image = {picture ? ` ${process.env.REACT_APP_HOST_NAME}${picture}` : notFound}
+                    alt = {`${title} image`}
                 />
                 <CardActions disableSpacing>
                     <IconButton

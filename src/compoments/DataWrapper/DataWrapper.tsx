@@ -1,30 +1,28 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import Article from "../Arcticle/Article";
-import {IPost} from "../../interfaces/interfaces";
+import {IDataWraper, IPost} from "../../interfaces/interfaces";
 import ButtonUser from "../ButtonUser/ButtonUser";
-import {WithStyles, withStyles} from "@material-ui/styles";
+import {withStyles} from "@material-ui/styles";
 import {style} from "./DataWrapper-style";
 import {Grid ,Typography} from "@material-ui/core";
-
-interface IDataWraper extends WithStyles<typeof style> {
-    data : IPost[],
-    deleteData: (id:number) => void
-}
 
 const dataOnPage : number = 4
 
 const DataWrapper  = withStyles(style)( ({ classes, data, deleteData}: IDataWraper)=>{
-    const showData = (currentPage : number, data : IPost[]) : ReactElement[] => {
+     const showData = (currentPage : number, data : IPost[]) : ReactElement[] => {
         const startData : number = currentPage  * dataOnPage
         const endData : number = startData + dataOnPage
         const dataShower : ReactElement[] = [];
 
         for (let i = startData; i < endData && i < data.length; i++){
-            dataShower.push(<Article id            =    {data[i].id}
+            dataShower.push(<Article id            = {data[i].id}
                                      title         = {data[i].title}
                                      body          = {data[i].articleContent}
                                      key           = {data[i].id}
+                                     picture       = {data[i].picture}
                                      deleteArticle = {deleteData}
+
+
             />)
         }
         return dataShower;

@@ -1,19 +1,8 @@
 import React  from "react";
-import {withStyles, WithStyles} from "@material-ui/styles";
+import {withStyles} from "@material-ui/styles";
 import {style} from "./TextBox-style";
 import {TextField} from "@material-ui/core";
-
-interface ITextBox extends WithStyles<typeof style> {
-HasError: boolean,
-ErrorMessage: string,
-label: string,
-placeholder: string,
-value: string,
-setValue: (value: string) => void,
-type:string,
-multiline?: boolean
-rows?: number
-}
+import {ITextBox} from "../../../interfaces/interfaces";
 
 const TextBox = withStyles(style)(
     ({classes,

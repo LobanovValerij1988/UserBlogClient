@@ -3,11 +3,9 @@ import {Box, Tabs, Tab, Button} from "@material-ui/core";
 import TabPanel from "./TabPanel/TabPanel";
 import {useHistory, useLocation} from "react-router";
 import {style} from "./NavigationMenu-style";
-import {WithStyles, withStyles} from "@material-ui/styles";
+import {withStyles} from "@material-ui/styles";
 import {UserRegistered} from "../App/App";
-
-interface INavigationMenu extends WithStyles<typeof style>{
-}
+import {INavigationMenu} from "../../interfaces/interfaces";
 
 function a11yProps(index: number) {
     return {

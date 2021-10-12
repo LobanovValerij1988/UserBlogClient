@@ -1,13 +1,8 @@
 import React from "react";
 import {Button} from '@material-ui/core'
 import {style} from "./button-style";
-import {withStyles, WithStyles} from "@material-ui/styles";
-
-interface IButton extends WithStyles<typeof style>{
-    onClick: ()=> void,
-    subscription: string,
-    disabled?: boolean
-}
+import {withStyles} from "@material-ui/styles";
+import {IButton} from "../../interfaces/interfaces";
 
 const ButtonUser = withStyles(style)(  ({classes, onClick, subscription, disabled = false}: IButton) => {
     return(

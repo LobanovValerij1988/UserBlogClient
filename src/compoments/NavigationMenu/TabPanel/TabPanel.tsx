@@ -1,13 +1,8 @@
 import React from "react";
 import {Box, Typography} from "@material-ui/core";
+import {ITabPanelProps} from "../../../interfaces/interfaces";
 
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props: ITabPanelProps) {
     const { children, value, index, ...other } = props;
     return (
         <div

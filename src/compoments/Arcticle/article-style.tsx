@@ -6,10 +6,15 @@ export const style = (theme:Theme) => createStyles({
         padding: 20,
         background: " grey !important",
     },
-     cardContent: {
+    cardContent: {
        margin: "20px !important"
     },
     backButton: {
-    float: "right "
+        float: "right "
+    },
+    image:{
+        width: "100%",
+        margin: "16px 0 24px 0"
     }
+
 });
