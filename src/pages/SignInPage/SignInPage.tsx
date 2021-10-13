@@ -35,7 +35,7 @@ const MyForm = withStyles(style)(  ({classes ,setUser}: ISignInPage) => {
                   password: password
               }
               try {
-                  const response = await fetch('http://localhost:3001/Login', {
+                  const response = await fetch(`${process.env.REACT_APP_HOST_NAME}/Login`, {
                       method: 'POST',
                       headers: {
                           'Content-Type': 'application/json;charset=utf-8'
@@ -75,15 +75,15 @@ const MyForm = withStyles(style)(  ({classes ,setUser}: ISignInPage) => {
                      HasError = {isErrorName}
                      ErrorMessage = "Field could not be empty"  />
 
-             <TextBox
-                 HasError = {isErrorPassword}
-                 ErrorMessage = "Field could not be empty"
-                 value = {password}
-                 setValue = {setPassword}
-                 label = "Password"
-                 placeholder = {"Enter your password"}
-                 type = {"password"}
-               />
+            <TextBox
+                     HasError = {isErrorPassword}
+                     ErrorMessage = "Field could not be empty"
+                     value = {password}
+                     setValue = {setPassword}
+                     label = "Password"
+                     placeholder = {"Enter your password"}
+                     type = {"password"}
+            />
 
              <ButtonUser onClick = {Register} subscription = {"Sign In"} />
          </Box>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {Card, Typography, Grid, CardHeader, IconButton, Collapse, CardActions, CardMedia} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
 import {style} from "./article-style"
@@ -7,14 +7,38 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateSharpIcon from '@mui/icons-material/UpdateSharp';
 import {IShowArticle} from "../../interfaces/interfaces";
 import notFound from "../../images/not-found-image.jpg";
+import {PostManager} from "../App/App";
 
-const ShowArticle = withStyles(style)( ({classes, title, body, id, deleteArticle, updateArticleHandle, picture}: IShowArticle) => {
+const ShowArticle = withStyles(style)( ({classes, title, body, id, updateArticleHandle, picture}: IShowArticle) => {
     const [expanded, setExpanded] = useState<boolean>(false);
 
-    console.log(`${process.env.REACT_APP_HOST_NAME}${picture}`);
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+
+    const postManager = useContext(PostManager)
+    const deletePost = async (id: number) =>{
+        try {
+            const articleId = {
+                articleId: id
+            }
+            const response = await fetch(`${process.env.REACT_APP_HOST_NAME}/DeletePost`, {
+                method: 'Delete',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(articleId)
+            })
+            if (response.ok) {
+                const newPost = postManager.posts?.filter(post => post.id !== id)
+                postManager.setPosts(newPost ? newPost : undefined);
+            }
+        }
+        catch (e){
+            console.log(e)
+        }
+    }
+
 
     return(
         <Grid item sm = {12} md = {6} lg = {3} >
@@ -22,7 +46,7 @@ const ShowArticle = withStyles(style)( ({classes, title, body, id, deleteArticle
                 <CardHeader
                     action = {
                         <IconButton aria-label="settings"
-                                    onClick={()=>deleteArticle(id)}
+                                    onClick={() => deletePost(id)}
                         >
                             <DeleteIcon  color={"error"}/>
                         </IconButton>

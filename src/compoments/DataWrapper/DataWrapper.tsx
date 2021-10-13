@@ -8,22 +8,15 @@ import {Grid ,Typography} from "@material-ui/core";
 
 const dataOnPage : number = 4
 
-const DataWrapper  = withStyles(style)( ({ classes, data, deleteData}: IDataWraper)=>{
+const DataWrapper  = withStyles(style)( ({ classes, data}: IDataWraper)=>{
      const showData = (currentPage : number, data : IPost[]) : ReactElement[] => {
+
         const startData : number = currentPage  * dataOnPage
         const endData : number = startData + dataOnPage
         const dataShower : ReactElement[] = [];
 
         for (let i = startData; i < endData && i < data.length; i++){
-            dataShower.push(<Article id            = {data[i].id}
-                                     title         = {data[i].title}
-                                     body          = {data[i].articleContent}
-                                     key           = {data[i].id}
-                                     picture       = {data[i].picture}
-                                     deleteArticle = {deleteData}
-
-
-            />)
+            dataShower.push(<Article post = {data[i]}  key = {data[i].id} />)
         }
         return dataShower;
     }

@@ -1,14 +1,16 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {withStyles} from "@material-ui/styles";
 import {style} from "./article-style"
 import CreateOrUpdateArticle from "./CreateOrUpdateArticle";
 import ShowArticle from "./ShowArticle";
-import {IArticle} from "../../interfaces/interfaces";
+import {IArticle, IPost} from "../../interfaces/interfaces";
 
-const Article = withStyles(style)( ({classes, title, body, id, deleteArticle,picture}: IArticle) => {
+const Article = withStyles(style)( ({classes, post}: IArticle) => {
      const [isUpdateArticle, setIsUpdateArticle] = useState<boolean>(false)
-     const [currentTitle, setCurrentTitle] = useState<string>(title)
-     const [currentBody, setCurrentBody] = useState<string>(body)
+
+     const [currentTitle, setCurrentTitle] = useState<string>(post.title)
+     const [currentBody, setCurrentBody] = useState<string>(post.articleContent)
+     const [picture, setCurrentPucture] = useState<string | null>(post.picture)
 
     const updatePost = async (formData: FormData) => {
        const response = await fetch(`${process.env.REACT_APP_HOST_NAME}/PostUpdate`, {
@@ -16,10 +18,10 @@ const Article = withStyles(style)( ({classes, title, body, id, deleteArticle,pic
             body: formData
         })
         if (response.ok) {
-            const newTitle= formData.get("title") || "";
-            setCurrentTitle(newTitle.toString())
-            const newBody = formData.get("articleContent")  || ""
-            setCurrentBody(newBody.toString())
+            const savedPost : IPost = await response.json()
+            setCurrentTitle(savedPost.title )
+            setCurrentBody(savedPost.articleContent)
+            setCurrentPucture(savedPost.picture)
         }
     }
 
@@ -31,12 +33,12 @@ const Article = withStyles(style)( ({classes, title, body, id, deleteArticle,pic
                                         initiallyBody = {currentBody}
                                         buttonBackHandler = {setIsUpdateArticle}
                                         submitHandler = {updatePost}
-                                        articleId = {id.toString()}
+                                        articleId = {post.id.toString()}
                                         picture = {picture}
                  />  :
                  <ShowArticle body = {currentBody}
                               title = {currentTitle}
-                              id ={id} deleteArticle = {deleteArticle}
+                              id ={post.id}
                               updateArticleHandle = {setIsUpdateArticle}
                               picture = {picture}
                  />

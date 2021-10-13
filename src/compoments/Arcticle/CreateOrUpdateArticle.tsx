@@ -10,8 +10,8 @@ import notFound from "../../images/not-found-image.jpg";
 import {ICreateOrUpdateArticle} from "../../interfaces/interfaces";
 
 const CreateOrUpdateArticle = withStyles(style)(  ({classes, isUpdate = false, initiallyTitle = "" , initiallyBody = "" , buttonBackHandler, submitHandler, articleId = "",  picture = null} : ICreateOrUpdateArticle) => {
+
     const [title, setTitle]                = useState<string>(initiallyTitle);
-    console.log(picture , "picture");
     const [isErrorTitle, setIsErrorTitle ] = useState<boolean>(false)
 
     const [articleContent, setArticleContent] = useState<string>(initiallyBody)
@@ -57,9 +57,6 @@ const CreateOrUpdateArticle = withStyles(style)(  ({classes, isUpdate = false, i
                     if(file) {
                           formData.append("picture", file)
                     }
-                    if(picture){
-                        formData.append("picturePath", picture )
-                    }
                     submitHandler(formData)
                 }
             }
@@ -67,9 +64,10 @@ const CreateOrUpdateArticle = withStyles(style)(  ({classes, isUpdate = false, i
                 console.log(e)
             }
             finally {
-                buttonBackHandler?.(false);
-                setTitle("")
-                setArticleContent("")
+                   setTitle("")
+                   setArticleContent("")
+                   setFile(undefined)
+                   buttonBackHandler?.(false);
             }
         }
     }

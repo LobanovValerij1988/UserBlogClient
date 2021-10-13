@@ -38,17 +38,18 @@ export interface IInputFile extends WithStyles<typeof style> {
     setFile: (newFile: File | undefined ) => void
 }
 
+export interface IPostManager  {
+    posts : IPost[] | undefined,
+    setPosts: (data:IPost[] | undefined) => void
+}
+
 export interface IMyForm extends WithStyles<typeof style> {
-    posts : IPost[],
-    setPosts: (data:IPost[]) => void
+    posts : IPost[] | null,
+    setPosts: (data:IPost[] | null) => void
 }
 
 export  interface  IArticle extends WithStyles<typeof style>{
-    title: string;
-    body:  string;
-    id:    number
-    picture: string | null,
-    deleteArticle: (id : number) => void
+  post :  IPost
 }
 
 export  interface  IShowArticle extends WithStyles<typeof style>{
@@ -56,7 +57,6 @@ export  interface  IShowArticle extends WithStyles<typeof style>{
     body:  string;
     id:    number
     picture: string | null,
-    deleteArticle: (id : number) => void
     updateArticleHandle: (isUpdate:boolean ) => void
 }
 
@@ -68,7 +68,6 @@ export interface IButton extends WithStyles<typeof style>{
 
 export interface IDataWraper extends WithStyles<typeof style> {
     data : IPost[],
-    deleteData: (id:number) => void
 }
 
 export interface ITextBox extends WithStyles<typeof style> {

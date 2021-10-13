@@ -1,36 +1,20 @@
-import React from "react";
+import React, {useContext} from "react";
 import ButtonUser from "../ButtonUser/ButtonUser";
-import {IMyForm, IPost} from "../../interfaces/interfaces";
+import {IPost} from "../../interfaces/interfaces";
 import DataWrapper from "../DataWrapper/DataWrapper";
-import {withStyles} from "@material-ui/styles";
-import {style} from "../Arcticle/article-style";
 import {Grid} from "@material-ui/core";
+import {PostManager} from "../App/App";
 
-const MyForm = withStyles(style)(  ({posts,setPosts}:IMyForm) => {
+const MyForm = () => {
+   const postManager = useContext(PostManager)
 
-    const deletePost = async (id: number) =>{
-        try {
-            const articleId = {
-                articleId: id
-            }
-            const response = await fetch(`${process.env.REACT_APP_HOST_NAME}/DeletePost`, {
-                method: 'Delete',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify(articleId)
-            })
-            if (response.ok) {
-                const newPost = posts.filter(post => post.id !== id)
-                setPosts(newPost);
-            }
+   const showData = () =>{
+        if(postManager.posts?.length){
+            return <DataWrapper data = {postManager.posts} />
         }
-        catch (e){
-            console.log(e)
-        }
-    }
+   }
 
-     const  GetAllPosts = async  ():Promise<void> => {
+   const  GetAllPosts = async  ():Promise<void> => {
             let user = localStorage.getItem("user");
 
             try {
@@ -42,14 +26,13 @@ const MyForm = withStyles(style)(  ({posts,setPosts}:IMyForm) => {
                             },
                         })
                         if (response.ok) {
-
                             const data : IPost[] = await response.json()
-                            console.log(data);
-                            setPosts(data)
+                            postManager.setPosts(data)
                         }
                 }
             }
             catch (e){
+                postManager.setPosts(undefined);
                 console.log(e)
             }
         }
@@ -58,11 +41,9 @@ const MyForm = withStyles(style)(  ({posts,setPosts}:IMyForm) => {
             <Grid container justifyContent = {"center"} >
                 <ButtonUser onClick = {GetAllPosts} subscription = {"Get Data"} />
             </Grid>
-               {
-                    posts.length > 0 && <DataWrapper data = {posts} deleteData = {deletePost}/>
-               }
+               { showData() }
        </>
     )
-})
+}
 
 export  default MyForm
