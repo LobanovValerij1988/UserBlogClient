@@ -2,8 +2,7 @@ import {WithStyles} from "@material-ui/styles";
 import {style} from "../compoments/Arcticle/article-style";
 import React from "react";
 
-export interface  IPost extends IArticleBase{
-    picture: string | null,
+export interface  IPost extends IArticleBase {
     userId:    number,
     createdAt: string,
     updatedAt: string
@@ -19,14 +18,19 @@ export interface ICreateOrUpdateArticle extends WithStyles<typeof style> {
     articleId?: string,
 }
 
-export  interface IArticleBase extends WithStyles<typeof style>{
-    id:     number,
-    title:  string,
-    articleContent:string,
+export  interface IArticleBase extends WithStyles<typeof style> {
+    picture: string | null,
+    id:      number ,
+    title:   string,
+    articleContent: string,
+}
+
+export  interface  IShowArticle extends IArticleBase {
+    updateArticleHandle: (isUpdate:boolean ) => void
 }
 
 
- export  interface IUser{
+ export  interface IUser {
     name: string,
     password: string,
     id: number,
@@ -43,24 +47,11 @@ export interface IPostManager  {
     setPosts: (data:IPost[] | undefined) => void
 }
 
-export interface IMyForm extends WithStyles<typeof style> {
-    posts : IPost[] | null,
-    setPosts: (data:IPost[] | null) => void
+export  interface  IArticle extends WithStyles<typeof style> {
+   post :  IPost
 }
 
-export  interface  IArticle extends WithStyles<typeof style>{
-  post :  IPost
-}
-
-export  interface  IShowArticle extends WithStyles<typeof style>{
-    title: string;
-    body:  string;
-    id:    number
-    picture: string | null,
-    updateArticleHandle: (isUpdate:boolean ) => void
-}
-
-export interface IButton extends WithStyles<typeof style>{
+export interface IButton extends WithStyles<typeof style> {
     onClick: ()=> void,
     subscription: string,
     disabled?: boolean
@@ -82,7 +73,7 @@ export interface ITextBox extends WithStyles<typeof style> {
     rows?: number
 }
 
-export interface INavigationMenu extends WithStyles<typeof style>{
+export interface INavigationMenu extends WithStyles<typeof style> {
 }
 
 export interface ITabPanelProps {

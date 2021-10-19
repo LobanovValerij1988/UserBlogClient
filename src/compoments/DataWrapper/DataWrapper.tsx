@@ -8,7 +8,7 @@ import {Grid ,Typography} from "@material-ui/core";
 
 const dataOnPage : number = 4
 
-const DataWrapper  = withStyles(style)( ({ classes, data}: IDataWraper)=>{
+const DataWrapper  = withStyles(style)( ({ classes, data}: IDataWraper) => {
      const showData = (currentPage : number, data : IPost[]) : ReactElement[] => {
 
         const startData : number = currentPage  * dataOnPage

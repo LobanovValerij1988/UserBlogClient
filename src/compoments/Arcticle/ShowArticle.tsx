@@ -9,7 +9,7 @@ import {IShowArticle} from "../../interfaces/interfaces";
 import notFound from "../../images/not-found-image.jpg";
 import {PostManager} from "../App/App";
 
-const ShowArticle = withStyles(style)( ({classes, title, body, id, updateArticleHandle, picture}: IShowArticle) => {
+const ShowArticle = withStyles(style)( ({classes, title, articleContent, id, updateArticleHandle, picture}: IShowArticle) => {
     const [expanded, setExpanded] = useState<boolean>(false);
 
     const handleExpandClick = () => {
@@ -74,7 +74,7 @@ const ShowArticle = withStyles(style)( ({classes, title, body, id, updateArticle
                     </IconButton>
                 </CardActions>
                 <Collapse in = {expanded}  >
-                    <Typography className = {classes.cardContent}> {body} </Typography>
+                    <Typography className = {classes.cardContent}> {articleContent} </Typography>
                 </Collapse>
             </Card>
         </Grid>

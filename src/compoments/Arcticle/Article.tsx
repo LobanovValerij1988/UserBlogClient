@@ -36,7 +36,7 @@ const Article = withStyles(style)( ({classes, post}: IArticle) => {
                                         articleId = {post.id.toString()}
                                         picture = {picture}
                  />  :
-                 <ShowArticle body = {currentBody}
+                 <ShowArticle articleContent = {currentBody}
                               title = {currentTitle}
                               id ={post.id}
                               updateArticleHandle = {setIsUpdateArticle}
