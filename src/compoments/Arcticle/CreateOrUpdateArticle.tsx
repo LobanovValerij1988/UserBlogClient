@@ -9,7 +9,17 @@ import InputFile from "../Inputs/InputFile/InputFile";
 import notFound from "../../images/not-found-image.jpg";
 import {ICreateOrUpdateArticle} from "../../interfaces/interfaces";
 
-const CreateOrUpdateArticle = withStyles(style)(  ({classes, isUpdate = false, initiallyTitle = "" , initiallyBody = "" , buttonBackHandler, submitHandler, articleId = "",  picture = null} : ICreateOrUpdateArticle) => {
+const CreateOrUpdateArticle = withStyles(style)(  (
+    {
+        classes,
+        isUpdate = false,
+        initiallyTitle = "" ,
+        initiallyBody = "",
+        buttonBackHandler, 
+        submitHandler, 
+        articleId = "",  
+        picture = null
+    } : ICreateOrUpdateArticle) => {
 
     const [title, setTitle]                = useState<string>(initiallyTitle);
     const [isErrorTitle, setIsErrorTitle ] = useState<boolean>(false)
@@ -19,8 +29,9 @@ const CreateOrUpdateArticle = withStyles(style)(  ({classes, isUpdate = false, i
 
     const [file, setFile] = useState<File | undefined>( undefined)
 
-    const backHandler = (e:any) => {
+    const backHandler = () => {
           if (title !== initiallyTitle || articleContent !== initiallyBody){
+            // confirm is a temporary solution will be a modal
             if(window.confirm("you have unsaved changing. Do you want to leave?")){
                 buttonBackHandler?.(false)
             }
@@ -29,9 +40,32 @@ const CreateOrUpdateArticle = withStyles(style)(  ({classes, isUpdate = false, i
         buttonBackHandler?.(false)
     }
 
+    const ImgUrl = () => { 
+        if(file){
+        return (window.URL ?  window.URL : webkitURL).createObjectURL(file) 
+       }
+     return  picture ? `${process.env.REACT_APP_HOST_NAME}${picture}` : notFound 
+   }
+
+   const resetErrors = () =>{
+    setIsErrorTitle(false)
+    setIsErrorArticleContent(false)
+   }
+
+   const createFormData = (user: string ) => {
+    let formData = new FormData();
+    formData.append("articleId" , articleId);
+    formData.append("userId" , JSON.parse(user).id);
+    formData.append("title", title);
+    formData.append("articleContent",  articleContent);
+    if(file) {
+          formData.append("picture", file)
+    }
+    submitHandler(formData)
+   } 
+
     const  Register = async  ():Promise<void> => {
-        setIsErrorTitle(false)
-        setIsErrorArticleContent(false)
+        resetErrors()  
         let isHasError: boolean  = false;
         if(title.length === 0 ) {
             setIsErrorTitle(true)
@@ -41,27 +75,17 @@ const CreateOrUpdateArticle = withStyles(style)(  ({classes, isUpdate = false, i
             isHasError = true
             setIsErrorArticleContent(true)
         }
-        setTimeout(() => {
-            setIsErrorTitle(false)
-            setIsErrorArticleContent(false)
-        },2000)
+        // we reset errors after  2 seconds
+        setTimeout(resetErrors, 2000)
         if(!isHasError) {
             let user = localStorage.getItem("user");
             try {
                 if(user) {
-                    let formData = new FormData();
-                    formData.append("articleId" , articleId);
-                    formData.append("userId" , JSON.parse(user).id);
-                    formData.append("title", title);
-                    formData.append("articleContent",  articleContent);
-                    if(file) {
-                          formData.append("picture", file)
-                    }
-                    submitHandler(formData)
+                    createFormData(user)
                 }
             }
             catch (e){
-                console.log(e)
+                console.error(e)
             }
             finally {
                    setTitle("")
@@ -96,8 +120,7 @@ const CreateOrUpdateArticle = withStyles(style)(  ({classes, isUpdate = false, i
                         placeholder = {""}
                         type = {"text"}
                     />
-                    <img src={file ? (window.URL ? URL : webkitURL).createObjectURL(file) : picture ? `${process.env.REACT_APP_HOST_NAME}${picture}` : notFound }
-                         className={classes.image}/>
+                    <img src = {ImgUrl()} className = {classes.image}/>
                     <InputFile setFile = {setFile} />
                     <ButtonUser onClick = {Register} subscription = {isUpdate ? "Update article" : "Create Article"} />
                     { isUpdate && (
